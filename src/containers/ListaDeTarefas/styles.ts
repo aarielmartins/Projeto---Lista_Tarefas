@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.main`
-  padding: 0 40px;
+  padding: 40px;
   height: 100vh;
   // TODO CONTEÚDO QUE ULTRAPASSAR O VH DE 80 VAI SER ROLADO DENTRO
   // DO CONTAINER NO EIXO Y (VERTICAL)
