@@ -1,7 +1,11 @@
 import styled from 'styled-components'
 import { Props } from '.'
 
-export const Card = styled.div<Props>`
+// COMO PRECISAMOS DO 'ATIVO' DENTRO DE 'PROPS' PARA O ESTILO DO CARD,
+// MAS NÃO PRECISAMOS DO 'CONTADOR' E DA 'LEGENDA', USAMOS O OMIT PARA NÃO DAR ERRO
+type PropsSemLegendaEContador = Omit<Props, 'contador' | 'legenda'>
+
+export const Card = styled.div<PropsSemLegendaEContador>`
   padding: 8px;
   border: 1px solid ${(props) => (props.ativo ? '#1E90FF' : '#a1a1a1')};
   background-color: ${(props) => (props.ativo ? '#FFFFFF' : '#fcfcfc')};
