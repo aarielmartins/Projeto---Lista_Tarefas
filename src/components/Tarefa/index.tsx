@@ -8,14 +8,15 @@ type Props = {
   descricao: string
 }
 
-const Tarefa = () => {
+const Tarefa = ({ descricao, prioridade, status, titulo }: Props) => {
   const [estaEditando, setEstaEditando] = useState(false)
 
   return (
     <S.Card>
-      <S.Titulo>Nome Tarefa</S.Titulo>
-      <S.Tag>Importante</S.Tag>
-      <S.Tag>Pendente</S.Tag>
+      <S.Titulo>{titulo}</S.Titulo>
+      <S.Tag>{prioridade}</S.Tag>
+      <S.Tag>{status}</S.Tag>
+      {/* ESSE VALUE COMO PROPRIEDADE EXISTE APENAS NO REACT */}
       <S.Descricao value={descricao} />
       <S.BarraAcoes>
         {estaEditando ? (
