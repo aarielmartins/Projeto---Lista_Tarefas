@@ -7,14 +7,15 @@ import { RootReducer } from '../../store'
 //USA OS ENUMS PARA SETAR AS PRIORIDADES E STATUS
 
 const ListaDeTarefas = () => {
-  const { tarefas } = useSelector((state: RootReducer) => state)
+  const { itens } = useSelector((state: RootReducer) => state.tarefas)
 
   return (
     <Container>
       <ul>
-        {tarefas.map((cadaTarefa) => (
+        {itens.map((cadaTarefa) => (
           <li key={cadaTarefa.titulo}>
             <Tarefa
+              id={cadaTarefa.id}
               descricao={cadaTarefa.descricao}
               prioridade={cadaTarefa.prioridade}
               status={cadaTarefa.status}
