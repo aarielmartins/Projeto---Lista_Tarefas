@@ -37,10 +37,26 @@ const tarefasSlice = createSlice({
   initialState,
   reducers: {
     remover: (state, action: PayloadAction<number>) => {
-      state.itens = state.itens.filter((tarefa) => tarefa.id !== action.payload)
+      state.itens = [
+        ...state.itens.filter((tarefa) => tarefa.id !== action.payload)
+      ]
+    },
+    //REDUCER "EDITAR" QUE RECEBE UM ESTADO ATUAL, UMA AÇÃO E UM OBJETO DO TIPO TAREFA
+    editar: (state, action: PayloadAction<Tarefa>) => {
+      //PROCURA O ID QUE SEJA IGUAL O DA TAREFA RECEBIDA
+      const indexTarefa = state.itens.findIndex(
+        (t) => t.id === action.payload.id
+      )
+
+      //SE O ID NÃO É ENCONTRADO SE RETORNA "-1", OU SEJA QUANDO É
+      //ENCONTRADO É MAIOR QUE 0.NESSE CASO, ATUALIZA PARA A NOVA VERSÃO
+      //DOS CAMPOS ALTERADOR
+      if (indexTarefa >= 0) {
+        state.itens[indexTarefa] = action.payload
+      }
     }
   }
 })
 
-export const { remover } = tarefasSlice.actions
+export const { remover, editar } = tarefasSlice.actions
 export default tarefasSlice.reducer
