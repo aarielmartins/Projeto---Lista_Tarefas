@@ -9,13 +9,38 @@ import { RootReducer } from '../../store'
 const ListaDeTarefas = () => {
   //CONSTANTES CRIAM O ESTADO DO REDUCER ITENS E TERMO
   const { itens } = useSelector((state: RootReducer) => state.tarefas)
-  const { termo } = useSelector((state: RootReducer) => state.filtro)
+  const { termo, criterio, valor } = useSelector(
+    (state: RootReducer) => state.filtro
+  )
 
   //FUNÇÃO PARA FILTRAR TAREFAS, POIS QUANDO O SERCH NÃO ACHA RETORNA -1
+  //FILTRA PELOS CARDS DE PRIORIDADE OU STATUS
   const filtraTarefas = () => {
-    return itens.filter(
-      (item) => item.titulo.toLowerCase().search(termo.toLowerCase()) >= 0
-    )
+    let tarefasFiltradas = itens
+    //COMO O TERMO É OPICIONAL É NECESSÁRIO UM IF VERDADEIRO PARA EXCLUIR
+    // O TERMO SE FOR 'UNDEFINED'
+    if (termo !== undefined) {
+      tarefasFiltradas = tarefasFiltradas.filter(
+        (item) => item.titulo.toLowerCase().search(termo.toLowerCase()) >= 0
+      )
+
+      //SE O CRITERIO FOR PRIORIDADE, RETORNA A LISTA APENAS COM AS DE PRIORIDADE
+      if (criterio === 'prioridade') {
+        tarefasFiltradas = tarefasFiltradas.filter(
+          (item) => item.prioridade === valor
+        )
+        //SE O CRITERIO FOR STATUS, RETORNA A LISTA APENAS COM AS DE STATUS
+      } else if (criterio === 'status') {
+        tarefasFiltradas = tarefasFiltradas.filter(
+          (item) => item.status === valor
+        )
+      }
+
+      return tarefasFiltradas
+    } else {
+      //SE O TERMO NÃO FOR INFORMADO, SIMPLESMENTE RETORNA A LISTA COMPLETA DE ITENS
+      return itens
+    }
   }
 
   return (
@@ -24,6 +49,11 @@ const ListaDeTarefas = () => {
         2 tarefas marcadas como: &quot; categoria &ldquo; e &quot; {termo}
         &ldquo;
       </p>
+      <ul>
+        <li>{termo}</li>
+        <li>{criterio}</li>
+        <li>{valor}</li>
+      </ul>
       <ul>
         {filtraTarefas().map((cadaTarefa) => (
           <li key={cadaTarefa.titulo}>
