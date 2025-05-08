@@ -7,3 +7,11 @@ export const Container = styled.main`
   // DO CONTAINER NO EIXO Y (VERTICAL)
   overflow-y: scroll;
 `
+
+export const Resultado = styled.p`
+  display: block;
+  margim-top: 40px;
+  margin-bottom: 40px;
+  font-size: 18px;
+  font-weight: bold;
+`

@@ -1,8 +1,7 @@
 import { useSelector } from 'react-redux'
-import Tarefa from '../../components/Tarefa'
-import { Container } from './styles'
-
 import { RootReducer } from '../../store'
+import { Container, Resultado } from './styles'
+import Tarefa from '../../components/Tarefa'
 
 //USA OS ENUMS PARA SETAR AS PRIORIDADES E STATUS
 
@@ -43,19 +42,30 @@ const ListaDeTarefas = () => {
     }
   }
 
+  //FUNÇÃO PARA EXIBIR MENSAGEM DE FILTROS USADOS
+  const exibeResultadosFiltragem = (quantidade: number) => {
+    let mensagem = ''
+    const complemento =
+      termo !== undefined && termo.length > 0 ? `e "${termo}"` : ''
+
+    if (criterio === 'todas') {
+      mensagem = `${quantidade} tarefa(s) encontradas como: todas ${complemento}`
+    } else {
+      mensagem = `${quantidade} tarefa(s) encontradas como "${`${criterio} = ${valor}`}" ${complemento}`
+    }
+
+    return mensagem
+  }
+
+  //SEMPRE BOM COLOCAR A FUNÇÃO DENTRO DE UMA VARIÁVEL SE FOR CHAMAR + DE 1 VEZ
+  const tarefas = filtraTarefas()
+  const mensagem = exibeResultadosFiltragem(tarefas.length)
+
   return (
     <Container>
-      <p>
-        2 tarefas marcadas como: &quot; categoria &ldquo; e &quot; {termo}
-        &ldquo;
-      </p>
+      <Resultado>{mensagem}</Resultado>
       <ul>
-        <li>{termo}</li>
-        <li>{criterio}</li>
-        <li>{valor}</li>
-      </ul>
-      <ul>
-        {filtraTarefas().map((cadaTarefa) => (
+        {tarefas.map((cadaTarefa) => (
           <li key={cadaTarefa.titulo}>
             <Tarefa
               id={cadaTarefa.id}
