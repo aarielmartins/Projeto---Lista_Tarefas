@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { remover, editar } from '../../store/reducers/tarefas'
+import { BotaoSalvar } from '../../styles'
 import * as S from './styles'
 import TarefaClass from '../../models/Tarefas'
-import { remover, editar } from '../../store/reducers/tarefas'
 
 //IMPORTA COMO PROPS O OBJETO 'TAREFA'
 type Props = TarefaClass
@@ -51,7 +52,7 @@ const Tarefa = ({
       <S.BarraAcoes>
         {estaEditando ? (
           <>
-            <S.BotaoSalvar
+            <BotaoSalvar
               //DISPACHE QUE SALVA A NOVA ALTERAÇÃO
               onClick={() => {
                 dispatch(
@@ -67,7 +68,7 @@ const Tarefa = ({
               }}
             >
               Salvar
-            </S.BotaoSalvar>
+            </BotaoSalvar>
             <S.BotaoCancelarRemover onClick={cancelarEdicao}>
               Cancelar
             </S.BotaoCancelarRemover>

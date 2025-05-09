@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { RootReducer } from '../../store'
-import { Container, Resultado } from './styles'
+import { MainContainer, Titulo } from '../../styles'
 import Tarefa from '../../components/Tarefa'
 
 //USA OS ENUMS PARA SETAR AS PRIORIDADES E STATUS
@@ -62,8 +62,9 @@ const ListaDeTarefas = () => {
   const mensagem = exibeResultadosFiltragem(tarefas.length)
 
   return (
-    <Container>
-      <Resultado>{mensagem}</Resultado>
+    <MainContainer>
+      {/* IMPORTA O ESTILO DE TÍTULO QUE É UM "H2" COMO UM "P" */}
+      <Titulo as="p">{mensagem}</Titulo>
       <ul>
         {tarefas.map((cadaTarefa) => (
           <li key={cadaTarefa.titulo}>
@@ -77,7 +78,7 @@ const ListaDeTarefas = () => {
           </li>
         ))}
       </ul>
-    </Container>
+    </MainContainer>
   )
 }
 
