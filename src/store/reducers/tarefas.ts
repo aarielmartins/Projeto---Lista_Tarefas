@@ -68,9 +68,27 @@ const tarefasSlice = createSlice({
       } else {
         state.itens.push(action.payload)
       }
+    },
+    alteraStatus: (
+      state,
+      action: PayloadAction<{ id: number; finalizado: boolean }>
+    ) => {
+      //COMPARA O ID DE CADA ITEM COM O ID VINDO DO ACTION PAYLOAD
+      const indexTarefa = state.itens.findIndex(
+        (t) => t.id === action.payload.id
+      )
+
+      //SENDO DIFERENTE DE TODOS, RETORNA NEGATIVO, SENDO IGUAL RETORNA
+      //A POSIÇÃO NO ARRAY (POSITIVA). QUANDO POSITIVO, SE ACTION.PAYLOAD.FINALIZADO
+      //FOR TRUE TORNA O STATUS CONCLUÍDO, SE NÃO DEIXA PENDENTE
+      if (indexTarefa >= 0) {
+        state.itens[indexTarefa].status = action.payload.finalizado
+          ? enums.Status.CONCLUIDA
+          : enums.Status.PENDENTE
+      }
     }
   }
 })
 
-export const { remover, editar, cadastrar } = tarefasSlice.actions
+export const { remover, editar, cadastrar, alteraStatus } = tarefasSlice.actions
 export default tarefasSlice.reducer

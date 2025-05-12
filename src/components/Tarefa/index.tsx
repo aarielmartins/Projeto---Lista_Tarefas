@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { remover, editar } from '../../store/reducers/tarefas'
+import { remover, editar, alteraStatus } from '../../store/reducers/tarefas'
 import { BotaoSalvar } from '../../styles'
+import * as enums from '../../utils/enums/Tarefa'
 import * as S from './styles'
 import TarefaClass from '../../models/Tarefas'
 
@@ -32,9 +33,38 @@ const Tarefa = ({
     setDescricao(descricaoOriginal)
   }
 
+  //O CHANGE EVENT É UM EVENTO DE MUDANÇA E O HTML INPUT ELEMENT INFORMA
+  //QUE O EVENTO ACONTECE EM UM ELEMENTO INPUT
+  function alteraStatusTarefa(evento: ChangeEvent<HTMLInputElement>) {
+    //CHAMA O DISPATCH PARA ALTERAR O ESTADO
+    dispatch(
+      // QUANDO O USUARIO CLICA NO CHECKBOX O EVENTO MUDA PARA TRUE OR FALSE
+      alteraStatus({
+        id,
+        finalizado: evento.target.checked
+      })
+    )
+  }
+
   return (
     <S.Card>
-      <S.Titulo>{titulo}</S.Titulo>
+      {/* O INPUT E TITULO DENTRO DA LABEL TORNA TODO O ELEMENTO CLICÁVEL */}
+      <label htmlFor={titulo}>
+        <input
+          type="checkbox"
+          id={titulo}
+          // SE O STATUS FOR CONCLUÍDA JÁ DA UM CHECKED
+          checked={status === enums.Status.CONCLUIDA}
+          //EVENTO QUE ACONTECE QUANDO OUSUÁRIO DESMARCA E MARCA O BOX
+          onChange={alteraStatusTarefa}
+        />
+        <S.Titulo>
+          {/* SE O 'ESTA EDITANDO' FOR TRUE(&&) RENDERIZA O 'EDITANDO'
+          SE NÃO NÃO RENDERIZA NADA */}
+          {estaEditando && <em>Editando: </em>}
+          {titulo}
+        </S.Titulo>
+      </label>
       <S.Tag parametro="prioridade" prioridade={prioridade}>
         {prioridade}
       </S.Tag>
