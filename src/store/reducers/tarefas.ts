@@ -55,7 +55,10 @@ const tarefasSlice = createSlice({
         state.itens[indexTarefa] = action.payload
       }
     },
-    cadastrar: (state, action: PayloadAction<Tarefa>) => {
+    //PARA O REDUX NÃO SE PERDER COM O PUSH DAS CLASSES DESESTRUTURAMOS O
+    //OBJETOS E PASSAMOS AS PROPRIEDADES COMO UM SPRAD
+    //O OMIT IGNORA O ID DA TAREFA
+    cadastrar: (state, action: PayloadAction<Omit<Tarefa, 'id'>>) => {
       //FUNÇÃO PARA VERIFICAR SE O TÍTULO DA TAREFA ADICIONADA JÁ EXISTE
       const tarefaJaExiste = state.itens.find(
         (tarefa) =>
@@ -66,7 +69,16 @@ const tarefasSlice = createSlice({
       if (tarefaJaExiste) {
         alert('Já existe uma tarefa com este nome!')
       } else {
-        state.itens.push(action.payload)
+        //state.itens.length -1 É O ÚLTIMO ITEM DE UM ARRAY (PQ O ARRAY INICIA EM 0 A CONTAGEM)
+        const ultimaTarefa = state.itens[state.itens.length - 1]
+
+        const tarefaNova = {
+          ...action.payload,
+          //CASO A ÚLTIMA TAREFA EXISTA RETORNA SEU VALOR +1 PARA VIRAR O ID
+          //CASO NÃO EXISTA O ID É 1, POIS É A PRIMEIRA TAREFA
+          id: ultimaTarefa ? ultimaTarefa.id + 1 : 1
+        }
+        state.itens.push(tarefaNova)
       }
     },
     alteraStatus: (
